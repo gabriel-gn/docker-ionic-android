@@ -12,6 +12,7 @@ ENV IONIC_VERSION=6.18.0 \
     APKTOOL_VERSION=2.5.0
 
 RUN echo "Installing basics" && \
+    apt-get update && \
     mkdir -p /usr/share/man/man1 && \
     apt-get -qq update && \
     apt-get -qq install -y \
@@ -25,7 +26,12 @@ RUN echo "Installing Gradle & Java JDK 8" && \
         gradle \
         openjdk-8-jre \
         openjdk-8-jdk \
-        --no-install-recommends
+        --no-install-recommends && \
+    wget https://downloads.gradle-dn.com/distributions/gradle-7.0.2-bin.zip -P /tmp && \
+    unzip -d /opt/gradle tmp/gradle-7.0.2-bin.zip && \
+    touch /etc/profile.d/gradle.sh && \
+    echo 'export GRADLE_HOME=/opt/gradle/gradle-7.0.2' >> /etc/profile.d/gradle.sh && \
+    echo 'export PATH=${GRADLE_HOME}/bin:${PATH}' >> /etc/profile.d/gradle.sh
 
 RUN echo "Installing Android SDK" && \
     mkdir -p /root/.android && \
