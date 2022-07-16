@@ -47,6 +47,12 @@ docker build -t datencia/ionic-android github.com/datencia/docker-ionic-android
 docker run -it datencia/ionic-android bash
 ```
 
+### Run Image to build apk
+
+```
+docker run --rm -it -v ${PWD}:/app -w /app/android <image_name> npm run ionic:clean-build-android && cd android && ./gradlew assembleDebug && cd ..
+```
+
 ### Use as base image
 
 ```Dockerfile
