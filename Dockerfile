@@ -1,4 +1,4 @@
-FROM node:12.22.7-slim
+FROM node:14.15.5-slim
 
 LABEL maintainer="David Atencia <david.atencia@gmail.com>"
 
@@ -9,7 +9,9 @@ ENV IONIC_VERSION=6.18.0 \
     ANDROID_TOOLS_VERSION=r25.2.5 \
     ANDROID_API_LEVEL=android-27 \
     ANDROID_BUILD_TOOLS_VERSION=30.0.3 \
-    APKTOOL_VERSION=2.5.0
+    APKTOOL_VERSION=2.5.0 \
+    VERCEL_URL=localhost \
+    VERCEL_GIT_REPO_SLUG=LoRDecks
 
 RUN echo "Installing basics" && \
     apt-get update && \
@@ -53,7 +55,8 @@ RUN echo "Installing Apktool" && \
     wget -O /usr/local/bin/apktool.jar -nv https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_${APKTOOL_VERSION}.jar && \
     chmod +x /usr/local/bin/apktool.jar /usr/local/bin/apktool
 
-RUN echo "Installing Ionic & Cordova" && \
+RUN echo "Installing Angular, Ionic and Cordova" && \
+    npm i -g @angular/cli && \
     npm i -g @ionic/cli@${IONIC_VERSION} cordova@${CORDOVA_VERSION} cordova-res --unsafe-perm && \
     ionic --no-interactive config set -g daemon.updates false && \
     cordova telemetry off
